@@ -7,7 +7,7 @@ const db = config.dbPassword;
 const cors = require ('cors');
 
 const keys = require("./config/keys");
-mongoose.connect(db,
+mongoose.connect('mongodb+srv://Badal:ambadcr7@learn.fxagg.mongodb.net/ramkumar?retryWrites=true&w=majority',
 { useNewUrlParser: true ,useUnifiedTopology: true,useCreateIndex: true,useFindAndModify:false}).then(() => console.log('MongoDB Connected'))
 .catch(err => console.log(err))
 
