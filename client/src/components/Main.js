@@ -25,10 +25,10 @@ function Main(props) {
     
     const users = useSelector((state)=>state.users.users);
     const dispatch = useDispatch();
-    // console.log(users);
+ 
 
     useEffect(() => {
-        console.log("called");
+       
         getPosts();
         localStorage.setItem("user", JSON.stringify(all));
         
@@ -94,7 +94,7 @@ const handleUpdate = (e) => {
 
 const getPosts=()=>{
   const id =props.match.params.id;
-  console.log(id)
+
   axios.get(`/users/${id}`).then((res)=>{
     if(res.data.success){
      setDate(res.data.user.date);

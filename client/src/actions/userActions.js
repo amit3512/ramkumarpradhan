@@ -10,7 +10,7 @@ export const getUser = () => async (dispatch)=>{
     return res.data;
   })
  const data = users.users
-  console.log(data)
+ 
    dispatch({
        type:GET_USER,
        payload:data,

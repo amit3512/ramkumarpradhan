@@ -17,7 +17,7 @@ const onDelete = (id) =>{
 }
 
 useEffect(() => {
-    console.log("called");
+   
     dispatch(getUser());
 },[]);
 

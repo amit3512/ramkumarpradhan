@@ -15,7 +15,7 @@ const handleEmail = (e) => {
 
 const handlePassword = (e) => {
     const password = e.target.value;
-    console.log(password);
+  
     setPassword(password);
 }
 
