@@ -81,7 +81,7 @@ const handleUpdate = (e) => {
   
   
   
-  axios.put(`http://localhost:3333/users/update/${id}`,data).then((res)=>{
+  axios.put(`/users/update/${id}`,data).then((res)=>{
     if (res.data.success){
         alert("Edited Successfully")
         
@@ -95,7 +95,7 @@ const handleUpdate = (e) => {
 const getPosts=()=>{
   const id =props.match.params.id;
   console.log(id)
-  axios.get(`http://localhost:3333/users/${id}`).then((res)=>{
+  axios.get(`/users/${id}`).then((res)=>{
     if(res.data.success){
      setDate(res.data.user.date);
      setName(res.data.user.name);

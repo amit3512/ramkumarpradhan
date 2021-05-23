@@ -10,7 +10,7 @@ const data = useSelector((state)=>state.users.users);
 const dispatch = useDispatch();
 
 const onDelete = (id) =>{
-    axios.delete(`http://localhost:3333/users/delete/${id}`).then(()=>{
+    axios.delete(`/users/delete/${id}`).then(()=>{
     dispatch(getUser());
     });
     

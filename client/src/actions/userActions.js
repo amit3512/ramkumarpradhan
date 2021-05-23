@@ -6,7 +6,7 @@ const url = "/users/add";
 
 
 export const getUser = () => async (dispatch)=>{
-  const users = await axios.get("http://localhost:3333/users").then(res=>{
+  const users = await axios.get("/users").then(res=>{
     return res.data;
   })
  const data = users.users
@@ -18,7 +18,7 @@ export const getUser = () => async (dispatch)=>{
 };
 
 export const addUser = (data) => async (dispatch)=>{
-  await axios.post("http://localhost:3333/users/add",data)
+  await axios.post("/add",data)
     .then((data) => {
       dispatch({ type: ADD_USER, payload: data.users });
       alert("Added Successfully");
