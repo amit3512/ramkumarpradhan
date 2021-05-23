@@ -30,7 +30,7 @@ function Main(props) {
     useEffect(() => {
         console.log("called");
         getPosts();
-        localStorage.setItem("users", JSON.stringify(all));
+        localStorage.setItem("user", JSON.stringify(all));
         
       }, [all]);
 
