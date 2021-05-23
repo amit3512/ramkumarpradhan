@@ -1,0 +1,67 @@
+.App {
+  font-size: 0.9em;
+  overflow-x: auto;
+}
+
+.NavBar{
+ background-color: antiquewhite;
+ text-align: center;
+ 
+}
+
+.nav-items{
+  list-style: none;
+  display: inline-flex;
+  
+}
+
+.nav-items li{
+  padding: 1em;
+  justify-content: space-between;
+  font-size: 1.37em;
+  color:black;
+  
+}
+
+ .table {
+  margin-top: 2em ;
+  font: lighter;
+  font-size: 1.37em;
+  border: 2px solid black;
+  
+}
+
+thead th{
+  border-bottom: 2px solid black;
+  padding: 0.5em;
+}
+
+a{
+  text-decoration: none;
+}
+.EditDeleteButton button{
+  justify-content: space-between;
+  
+}
+
+.AddButton a{
+  position: absolute;
+  top: 1;
+  right: 3;
+  padding-top: 0.9em;
+ 
+}
+
+.form-group{
+  padding-top: 0.7em;
+}
+
+ .Paid
+ {
+color: lightgreen;
+}
+
+.Remain
+ {
+color: red;
+}
