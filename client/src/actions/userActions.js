@@ -18,7 +18,7 @@ export const getUser = () => async (dispatch)=>{
 };
 
 export const addUser = (data) => async (dispatch)=>{
-  await axios.post("users/add",data)
+  await axios.post("/users/add",data)
     .then((data) => {
       dispatch({ type: ADD_USER, payload: data.users });
       alert("Added Successfully");
