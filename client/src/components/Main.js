@@ -78,7 +78,7 @@ const handleUpdate = (e) => {
   const id = props.match.params.id;
   e.preventDefault();
   const data = {date,name,phone,desc,take,give,remain,brief}
-  console.log(data);
+  
   
   
   axios.put(`http://localhost:3333/users/update/${id}`,data).then((res)=>{
