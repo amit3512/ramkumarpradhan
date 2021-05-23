@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const db = config.dbPassword;
 const cors = require ('cors');
 
-
+const keys = require("./config/keys");
 mongoose.connect(db,
 { useNewUrlParser: true ,useUnifiedTopology: true,useCreateIndex: true,useFindAndModify:false}).then(() => console.log('MongoDB Connected'))
 .catch(err => console.log(err))
