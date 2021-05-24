@@ -1,7 +1,7 @@
 
 
 const UpdateUser = ({
-    handleDate,
+        handleDate,
         handleName,
         handlePhone,
         handleDesc,
@@ -29,7 +29,7 @@ return(
             <form>
                         <div className="form-group">
                         
-                        <input type="text" className="form-control" id="formGroupExampleInput" placeholder="Date" name="date" value={date} onChange={handleDate}/>
+                        <input type="text" className="form-control" id="formGroupExampleInput" placeholder="YYYY-MM-DD" name="date" value={date} onChange={handleDate}/>
                         
                         </div>
                         <div className="form-group">
@@ -66,22 +66,22 @@ return(
                         
                         <div className="form-group">
                         
-                        <input type="text" className="form-control" id="formGroupExampleInput4" placeholder="Aafuley Liney" name="take" value={take} onChange={handleTake}/>
+                        <input type="text" className="form-control" id="formGroupExampleInput4" placeholder="Aafuley Liney Paisa" name="take" value={take} onChange={handleTake}/>
                         
                         </div>
                         <div className="form-group">
                         
-                        <input type="text" className="form-control" id="formGroupExampleInput5" placeholder="Aafule Diney" name="give" value={give} onChange={handleGive}/>
+                        <input type="text" className="form-control" id="formGroupExampleInput5" placeholder="Aafule Diney Paisa" name="give" value={give} onChange={handleGive}/>
                         
                         </div>
                         <div className="form-group">
                         
-                        <input type="text" className="form-control" id="formGroupExampleInput6" placeholder="Baaki" name="remain" value={remain} onChange={handleRemain}/>
+                        <input type="text" className="form-control" id="formGroupExampleInput6" placeholder="Aafule Lina Waa Dina Baaki Paisa" name="remain" value={remain} onChange={handleRemain}/>
                         
                         </div>
                         <div className="form-group">
                         
-                        <select type="text" className="form-control" id="formGroupExampleInput7" placeholder="Disakeko,Baaki" name="brief" value={brief} onChange={handleBrief}>
+                        <select type="text" className="form-control" id="formGroupExampleInput7" placeholder="Diyeko Waa Baaki" name="brief" value={brief} onChange={handleBrief}>
                             <option defaultValue="">Choose</option>
                             <option value="Paid">Paid</option>
                             <option value="Remain">Remain</option>
