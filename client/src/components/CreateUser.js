@@ -35,7 +35,7 @@ return(
                                     </div>
                                     <div className="form-group">
                                     
-                                    <input type="text" className="form-control" id="formGroupExampleInput" placeholder="Customer Name" 
+                                    <input type="text" className="form-control" id="formGroupExampleInput" placeholder="Manche Ko Naam" 
                                     name="name" value={name} onChange={handleName}/>
                             
                                     </div>
