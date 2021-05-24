@@ -152,6 +152,7 @@ return(
               handleGive={handleGive}
               handleRemain={handleRemain}
               handleBrief={handleBrief}
+              date={date}
               name={name}
               phone={phone}
               desc={desc}
