@@ -29,7 +29,7 @@ return(
 
                                     <div className="form-group">
                                     
-                                        <input type="text" className="form-control" id="formGroupExampleInput" placeholder="Date" 
+                                        <input type="text" className="form-control" id="formGroupExampleInput" placeholder="YYYY-MM-DD" 
                                         name="date" value={date} onChange={handleDate}/>
                             
                                     </div>
@@ -55,19 +55,19 @@ return(
                            
                                     <div className="form-group">
                             
-                                        <input type="text" className="form-control" id="formGroupExampleInput4" placeholder="Take" 
+                                        <input type="text" className="form-control" id="formGroupExampleInput4" placeholder="Aafule Liney Paisa" 
                                         name="take" value={take} onChange={handleTake}/>
                                     
                                     </div>
                                     <div className="form-group">
                                     
-                                        <input type="text" className="form-control" id="formGroupExampleInput5" placeholder="Give" 
+                                        <input type="text" className="form-control" id="formGroupExampleInput5" placeholder="Aafule Diyeko Paisa" 
                                         name="give" value={give} onChange={handleGive}/>
                                     
                                     </div>
                                     <div className="form-group">
                                     
-                                        <input type="text" className="form-control" id="formGroupExampleInput6" placeholder="Remain" 
+                                        <input type="text" className="form-control" id="formGroupExampleInput6" placeholder="Aafule Lina Waa Dina Baaki Paisa" 
                                         name="remain" value={remain} onChange={handleRemain}/>
                                     
                                     </div>
