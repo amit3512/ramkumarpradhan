@@ -1,7 +1,7 @@
 
 
 const UpdateUser = ({
-    handleDate,
+        handleDate,
         handleName,
         handlePhone,
         handleDesc,
@@ -9,6 +9,7 @@ const UpdateUser = ({
         handleBrief,
         handleGive,
         handleRemain,
+        handleImage,
         date,
         name,
         phone,
@@ -17,6 +18,7 @@ const UpdateUser = ({
         give,
         remain,
         brief,
+        image,
         handleSubmit
 }) =>{
 
@@ -34,7 +36,7 @@ return(
                         </div>
                         <div className="form-group">
                         
-                        <input type="text" className="form-control" id="formGroupExampleInput" placeholder="Name" name="name" value={name} onChange={handleName}/>
+                        <input type="text" className="form-control" id="formGroupExampleInput1" placeholder="Name" name="name" value={name} onChange={handleName}/>
                         
                         </div>
                         <div className="form-group">
@@ -59,7 +61,7 @@ return(
 
                         <div className="form-group">
                                     
-                                    <input type="text" className="form-control" id="formGroupExampleInput2" placeholder="Kaam ko Bibaran" 
+                                    <input type="text" className="form-control" id="formGroupExampleInput3" placeholder="Kaam ko Bibaran" 
                                     name="desc" value={desc} onChange={handleDesc}/>
                                     
                         </div>
@@ -88,6 +90,17 @@ return(
                             </select>
                         
                         </div>
+
+                        <div className="form-group">
+                                    
+                                        <input type="file" className="form-control" id="formGroupExampleInput8" placeholder="Upload Image" 
+                                        name="image" onChange={handleImage} multiple/>
+                                    
+                        </div>
+                        <div>
+                         <img src={image} alt="profile img" style={{height:50,width:50}}/>
+                        </div>
+
                         <button className="btn btn-success my-3" type="submit" onClick={handleSubmit}>Submit</button>
             </form>
 

@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
-import {Redirect} from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 const SignIn = () => {
 const [email, setEmail] = useState("");
 const[password, setPassword] = useState("");
-const[token, setToken] = useState("");
+const[token, setToken] = useState(null);
 const[redirect, setRedirect] = useState(localStorage.getItem('user') ? true : false,);
 
 const handleEmail = (e) => {
@@ -19,9 +19,6 @@ const handlePassword = (e) => {
 }
 
 const handleSubmit = () =>{
-    
- 
-    
     if(!(email=== "" || password === "")
     && (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)))
     {
@@ -67,7 +64,8 @@ const handleSubmit = () =>{
                            <form className="text-center border py-2">
                                <input type="email" placeholder="email" className="mb-2" name="email" onChange={handleEmail}required /><br/>
                                <input  type="password" placeholder="password" name="password"  onChange={handlePassword} required/><br/>
-                               <button className="text-center border my-2" onClick={handleSubmit} type="button">Submit</button>
+                               <button className="btn-info border my-2 p-1" onClick={handleSubmit} type="button">Submit</button>
+                               <Link to="#" className="px-2" type="button">Forgot Password?</Link>
                            </form>
                     </div>
                 </div>

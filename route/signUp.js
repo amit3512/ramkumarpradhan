@@ -55,11 +55,6 @@ router.post('/',(req, res, next)=>{
     });
 });
 
-// router.get('/users',async(req, res) => {
-//   const products = await User.find({});
-  
-//   res.send(products);
-// });
 
                      
      

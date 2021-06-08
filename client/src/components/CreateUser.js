@@ -9,6 +9,7 @@ const CreateUser = ({
         handleBrief,
         handleGive,
         handleRemain,
+        handleImage,
         date,
         name,
         phone,
@@ -17,21 +18,23 @@ const CreateUser = ({
         give,
         remain,
         brief,
+        image,
         handleSubmit
 }) =>{
-    
+
 return(
     <div className="container">
         <div className="row mt-5">
             <div className="col-md-4"></div>
                 <div className="col-md-4 border">
-                <form>
+                <form encType="multipart/form-data">
 
                                     <div className="form-group">
-                                    
-                                        <input type="text" className="form-control" id="formGroupExampleInput" placeholder="Date" 
+                                   
+                                        <input type="text" className="form-control" id="formGroupExampleInput" placeholder="YYYY-MM-DD" 
                                         name="date" value={date} onChange={handleDate}/>
-                            
+                                                       
+                                         
                                     </div>
                                     <div className="form-group">
                                     
@@ -80,6 +83,12 @@ return(
                                                 <option value="Remain">Remain</option>
                                         </select>
                             
+                                    </div>
+                                    <div className="form-group">
+                                    
+                                        <input type="file" className="form-control" id="formGroupExampleInput7"
+                                        name="image" onChange={handleImage} multiple/>
+                                        
                                     </div>
                             <button className="btn btn-success my-3" type="submit" onClick={handleSubmit}>Submit</button>
                 </form>

@@ -10,7 +10,7 @@ const { secret } = require("../config/config");
 const userRegister = async (userDets, role, res) => {
   try {
     // Validate the username
-    let usernameNotTaken = await validateUsername(userDets.username);
+    let usernameNotTaken = await validateUsername(userDets.name);
     if (!usernameNotTaken) {
       return res.status(400).json({
         message: `Username is already taken.`,
@@ -53,7 +53,7 @@ const userRegister = async (userDets, role, res) => {
 /**
  * @DESC To Login the user (ADMIN, SUPER_ADMIN, USER)
  */
-const userLogin = async (userCreds,res) => {
+const userLogin = async (userCreds,role,res) => {
   let { email, password } = userCreds;
   // First Check if the username is in the database
   const user = await User.findOne({ email });
@@ -64,12 +64,12 @@ const userLogin = async (userCreds,res) => {
     });
   }
   // We will check the role
-  // if (user.role !== role) {
-  //   return res.status(403).json({
-  //     message: "Please make sure you are logging in from the right portal.",
-  //     success: false
-  //   });
-  // }
+  if (user.role !== role) {
+    return res.status(403).json({
+      message: "Please make sure you are logging in from the right portal.",
+      success: false
+    });
+  }
   // That means user is existing and trying to signin fro the right portal
   // Now check for the password
   let isMatch = await bcrypt.compare(password, user.password);
@@ -87,6 +87,7 @@ const userLogin = async (userCreds,res) => {
     let result = {
      
       email: user.email,
+      role:user.role,
       token: `Bearer ${token}`,
       expiresIn: 168
     };
@@ -119,7 +120,7 @@ const userAuth = passport.authenticate("jwt", { session: false });
  */
 const checkRole = roles => (req, res, next) =>
   !roles.includes(req.user.role)
-    ? res.status(401).json("Unauthorized")
+    ? res.status(401).json("Unauthorized Cha Hai")
     : next();
 
 const validateEmail = async email => {

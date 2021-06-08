@@ -1,8 +1,8 @@
 import CreateUser from './CreateUser';
-import {useSelector, useDispatch} from 'react-redux';
-import React, { useState, useEffect } from 'react';
-import {addUser} from '../actions/userActions';
 import UpdateUser from './UpdateUser';
+import {useDispatch} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import {addUser, addUsers, updateUser, updateUsers} from '../actions/userActions';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const initialExpenses = localStorage.getItem("expenses")
   : [];
 
 function Main(props) {
-    const [all, setAll] = useState(initialExpenses);
+    const [all] = useState(initialExpenses);
     const [date, setDate] = useState("");
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -21,18 +21,19 @@ function Main(props) {
     const [give, setGive] = useState("");
     const [remain, setRemain] = useState("");
     const [brief, setBrief] = useState("");
+    const [image, setImage] = useState("");
     const [redirect, setRedirect] = useState(false);
     
-    const users = useSelector((state)=>state.users.users);
+    // const users = useSelector((state)=>state.users.users);
     const dispatch = useDispatch();
  
 
     useEffect(() => {
        
         getPosts();
-        localStorage.setItem("user", JSON.stringify(all));
+        localStorage.getItem("user", JSON.stringify(all));
         
-      }, [all]);
+      },[all]);
 
       const handleDate = e => {
         setDate(e.target.value);
@@ -66,30 +67,53 @@ function Main(props) {
         setBrief(e.target.value);
       };
 
+      const handleImage = e => {
+        
+        setImage(e.target.files);
+      };
+
 
 const handleSubmit = (e) => {
         e.preventDefault();
-        const data = {date,name,phone,desc,take,give,remain,brief}
-        dispatch(addUser(data));
+        // const data = {date,name,phone,desc,take,give,remain,brief}
+        const formData = new FormData();
+        
+
+       for (let i = 0; i < image.length; i++) {
+          formData.append("image", image[i])
+        }
+        formData.append("date",date);
+        formData.append("name",name);
+        formData.append("phone",phone);
+        formData.append("desc",desc);
+        formData.append("take",take);
+        formData.append("give",give);
+        formData.append("remain",remain);
+        formData.append("brief",brief);
+        dispatch(addUsers(formData));
         setRedirect(true);
 }
 
 const handleUpdate = (e) => {
   const id = props.match.params.id;
   e.preventDefault();
-  const data = {date,name,phone,desc,take,give,remain,brief}
-  
-  
-  
-  axios.put(`/users/update/${id}`,data).then((res)=>{
-    if (res.data.success){
-        alert("Edited Successfully")
+        // const data = {date,name,phone,desc,take,give,remain,brief}
+        const formData = new FormData();
+        for (let i = 0; i < image.length; i++) {
+          formData.append("image", image[i])
+        }
         
-                        }
-   }
-   
-  )
-  
+        
+        formData.append("date",date);
+        formData.append("name",name);
+        formData.append("phone",phone);
+        formData.append("desc",desc);
+        formData.append("take",take);
+        formData.append("give",give);
+        formData.append("remain",remain);
+        formData.append("brief",brief);
+        dispatch(updateUsers(id,formData));
+        setRedirect(true);
 }
 
 const getPosts=()=>{
@@ -97,6 +121,7 @@ const getPosts=()=>{
 
   axios.get(`/users/${id}`).then((res)=>{
     if(res.data.success){
+     setImage(res.data.user.image);
      setDate(res.data.user.date);
      setName(res.data.user.name);
      setPhone(res.data.user.phone);
@@ -105,8 +130,7 @@ const getPosts=()=>{
      setGive(res.data.user.give);
      setRemain(res.data.user.remain);
      setBrief(res.data.user.brief);
-      
-    }
+     }
   })
 };
 
@@ -132,6 +156,7 @@ return(
               handleGive={handleGive}
               handleRemain={handleRemain}
               handleBrief={handleBrief}
+              handleImage={handleImage}
             
               name={name}
               phone={phone}
@@ -140,6 +165,7 @@ return(
               give={give}
               remain={remain}
               brief={brief}
+              image={image}
               handleSubmit={handleSubmit}
               />
             ):(
@@ -152,6 +178,8 @@ return(
               handleGive={handleGive}
               handleRemain={handleRemain}
               handleBrief={handleBrief}
+              handleImage={handleImage}
+              date={date}
               name={name}
               phone={phone}
               desc={desc}
@@ -159,6 +187,7 @@ return(
               give={give}
               remain={remain}
               brief={brief}
+              image={image}
               handleSubmit={handleUpdate}
               />
             )
