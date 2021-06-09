@@ -3,8 +3,10 @@ const app = express();
 const config = require('./config/config');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const db = config.dbPassword;
 const cors = require ('cors');
+const path = require('path');
 
 const keys = require("./config/keys");
 mongoose.connect('mongodb+srv://Badal:ambadcr7@learn.fxagg.mongodb.net/ramkumar?retryWrites=true&w=majority',
@@ -13,6 +15,11 @@ mongoose.connect('mongodb+srv://Badal:ambadcr7@learn.fxagg.mongodb.net/ramkumar?
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname,'/public')));
+
+require('./middleware/passport')(passport) // as strategy in ./passport.js needs passport object
 
 app.use('/users',require('./route/user'));
 app.use('/signUp',require('./route/signUp'));

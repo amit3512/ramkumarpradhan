@@ -10,6 +10,8 @@ const PeopleSchema = new mongoose.Schema({
     give:{type:Number,required:true},
     remain:{type:Number,required:true},
     brief:{type:String,required:true},
+    image: { type: Array, required: true},
+   
     
 }, { timestamps: true })
 

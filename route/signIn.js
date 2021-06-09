@@ -1,64 +1,7 @@
-// const express = require('express');
-// const router = express.Router();
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
-
-// const User = require('../models/User');
-
-// router.post('/', (req, res, next) => {
-//   User.find({ email: req.body.email })
-//     .exec()
-//     .then(user => {
-//       if (user.length < 1) {
-//         // 401 means unauthorized
-//         return res.status(401).json({
-//           message: 'Auth failed'
-//         });
-//       }
-//       bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-//         if (err) {
-//           return res.status(401).json({
-//             message: 'Auth failed'
-//           });
-//         }
-//         if (result) {
-//           const token = jwt.sign({
-//             userId: user[0]._id,
-//             firstName: user[0].firstName,
-//             lastName: user[0].lastName,
-//             email: user[0].email,
-//           }, 
-//           'my_secret_key',
-//           {
-//             expiresIn: "1h"
-//           });
-//           return res.status(200).json({
-//             message: 'Auth successful',
-//             token: token
-//           });
-//         }
-//         res.status(401).json({
-//           message: 'Auth failed'
-//         });
-//       });
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       res.status(500).json({
-//         error: err
-//       });
-//     });
-// });
-// router.get('/',async(req, res) => {
-//   const products = await User.find({});
-//   console.log(products);
-//    res.send(products);
-// });
-
-
-// module.exports = router;
-
 const router = require("express").Router();
+const crypto = require('crypto');
+const bcrypt = require('bcrypt');
+
 // Bring in the User Registration function
 const {
   userAuth,
@@ -68,10 +11,10 @@ const {
   serializeUser
 } = require("../utils/auth");
 
-// // Users Registeration Route
-// router.post("/register-user", async (req, res) => {s
-//   await userRegister(req.body, "user", res);
-// });
+// Users Registeration Route
+router.post("/register-user", async (req, res) => {
+  await userRegister(req.body, "admin", res);
+});
 
 // // Admin Registration Route
 // router.post("/register-admin", async (req, res) => {
@@ -85,7 +28,7 @@ const {
 
 // Users Login Route
 router.post("/", async (req, res) => {
-  await userLogin(req.body,res);
+  await userLogin(req.body,"admin",res);
 });
 
 
@@ -143,5 +86,69 @@ router.get("/profile", userAuth, async (req, res) => {
 //     return res.json("Super admin and Admin");
 //   }
 // );
+const User = require('../models/User');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport')
+const {SENDGRID_API,EMAIL} = require('../config/keys');
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+  auth:{
+      api_key:"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"
+  }
+}))
+
+
+router.post('/reset-password',(req,res)=>{
+  crypto.randomBytes(32,(err,buffer)=>{
+      if(err){
+          console.log(err)
+      }
+      const token = buffer.toString("hex")
+      User.findOne({email:req.body.email})
+      .then(user=>{
+          if(!user){
+              return res.status(422).json({error:"User dont exists with that email"})
+          }
+          user.resetToken = token
+          user.expireToken = Date.now() + 3600000
+          user.save().then((result)=>{
+              transporter.sendMail({
+                  to:"ambadcr7@gmail.com",
+                  from:"shresthahome13@gmail.com",
+                  subject:"password reset",
+                  html:`
+                  <p>You requested for password reset</p>
+                  <h5>click in this <a href="http:/localhost:3000/reset/${token}">link</a> to reset password</h5>
+                  `
+              })
+              res.json({message:"check your email"})
+          })
+
+      })
+  })
+})
+
+
+router.post('/new-password',(req,res)=>{
+ const newPassword = req.body.password
+ const sentToken = req.body.token
+ User.findOne({resetToken:sentToken,expireToken:{$gt:Date.now()}})
+ .then(user=>{
+     if(!user){
+         return res.status(422).json({error:"Try again session expired"})
+     }
+     bcrypt.hash(newPassword,12).then(hashedpassword=>{
+        user.password = hashedpassword
+        user.resetToken = undefined
+        user.expireToken = undefined
+        user.save().then((saveduser)=>{
+            res.json({message:"password updated success"})
+        })
+     })
+ }).catch(err=>{
+     console.log(err)
+ })
+})
+
 
 module.exports = router;

@@ -1,21 +1,128 @@
-
 const express = require('express');
 const route = express.Router();
+const multer = require('multer');
+const mongoose = require("mongoose");
+const path = require('path');
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, path.join('uploads/'));
+    },
+    filename: function(req, file, cb) {
+      cb(null,file.originalname);
+    }
+  });
+  
+  const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  };
+  
+  const upload = multer({
+    storage: storage,
+    limits: {
+      fileSize: 1024 * 1024 * 10
+    },
+    fileFilter: fileFilter
+  });
  
 const People = require('../models/People');
+const {
+    userAuth,
+    userLogin,
+    checkRole,
+    userRegister,
+    serializeUser
+  } = require("../utils/auth");
+  
 
-route.post('/add',(req,res)=>{
+route.post('/add',upload.single('image'),(req,res)=>{
     try{
-        const post= new People(req.body);
-        post.save(()=>{
-           
-            return res.status(200).json({success:true,post});
-    
+      
+        const post= new People({
+         
+            date: req.body.date,
+            name: req.body.name,
+            phone: req.body.phone,
+            desc: req.body.desc,
+            take: req.body.take,
+            give: req.body.give,
+            remain: req.body.remain,
+            brief: req.body.brief,
+            image: req.file.path 
         });
+     
+      post.save()
+    .then(result => {
+      console.log(result);
+      res.status(201).json({
+        message: "Created product successfully",
+        createdProduct: {
+          post,
+        //   request: {
+        //     type: 'GET',
+        //     url: "http://localhost:3000/user/" + result.image
+        // }
+            }
+        
+      });
+    })
+           
+           
+    
+       
     }catch(err){
-        return res.status(400).json({success:false,err});
+        return res.status(400).json({success:false,err:"Can't Process..."});
     }
     
+})
+
+route.post('/adds',upload.array('image',5),(req,res)=>{
+  try{
+    
+      const post= new People({
+       
+          date: req.body.date,
+          name: req.body.name,
+          phone: req.body.phone,
+          desc: req.body.desc,
+          take: req.body.take,
+          give: req.body.give,
+          remain: req.body.remain,
+          brief: req.body.brief,
+          image: req.files.map(file=>file.path)
+      });
+   
+    post.save()
+  .then(result => {
+    console.log(result);
+    res.status(201).json({
+      message: "Created People successfully",
+      createdProduct: {
+        post,
+      //   request: {
+      //     type: 'GET',
+      //     url: result.image.map(result => {
+      //         "http://localhost:3000/user/" + result
+      //       })
+          
+      // }
+          }
+      
+    });
+  })
+         
+         
+  
+     
+  }catch(err){
+      return res.status(400).json({success:false,err:"Can't Process..."});
+  }
+  
 })
 
 route.get('/',async(req,res)=>{
@@ -28,13 +135,117 @@ route.get('/',async(req,res)=>{
        }
 });
 
-route.put('/update/:id',(req,res)=>{
-    People.findByIdAndUpdate(req.params.id,req.body,
-        (err,posts) => {
+
+// route.get("/", async(req, res, next) => {
+//   await People.find({})
+//     .exec()
+//     .then(req.bodys => {
+//       const response = {
+//         count: req.bodys.length,
+//         people: req.bodys.map(req.body => {
+//           return {
+//             date: req.body.date,
+//             name: req.body.name,
+//             phone: req.body.phone,
+//             desc: req.body.desc,
+//             take: req.body.take,
+//             give: req.body.give,
+//             remain: req.body.remain,
+//             brief: req.body.brief,
+//             image: req.body.image,
+//             request: {
+//               type: "GET",
+//               url: "http://localhost:3000/user/" + req.body._id
+//             }
+//           };
+//         })
+//       };
+//       //   if (req.bodys.length >= 0) {
+//       res.status(200).json(response);
+//       //   } else {
+//       //       res.status(404).json({
+//       //           message: 'No entries found'
+//       //       });
+//       //   }
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json({
+//         error: err
+//       });
+//     });
+// });
+
+route.put('/update/:id',upload.single('image'),(req,res)=>{
+    People.findByIdAndUpdate(req.params.id,{
+      $set: {
+        date: req.body.date,
+        name: req.body.name,
+        phone: req.body.phone,
+        desc: req.body.desc,
+        take: req.body.take,
+        give: req.body.give,
+        remain: req.body.remain,
+        brief: req.body.brief,
+        image: req.file.path
+      }},
+        (err,post) => {
                  if(err) return res.status(400).json({success:false,err})
-                 return res.status(200).json({success:true});
+                 return res.status(200).json({ message: "Updated People successfully",
+                 createdProduct: {
+                   
+                   request: {
+                     type: 'GET',
+                     url: "http://localhost:3000/user/" + req.file.filename
+                 }
+                     }});
      },
      );
+});
+
+route.put('/updates/:id',upload.array('image',5),(req,res)=>{
+  if (req.body.image){
+      var user = {
+       
+          date: req.body.date,
+          name: req.body.name,
+          phone: req.body.phone,
+          desc: req.body.desc,
+          take: req.body.take,
+          give: req.body.give,
+          remain: req.body.remain,
+          brief: req.body.brief,
+        
+      
+       
+      }
+     
+  }
+  else{
+    var user = {
+    
+        date: req.body.date,
+        name: req.body.name,
+        phone: req.body.phone,
+        desc: req.body.desc,
+        take: req.body.take,
+        give: req.body.give,
+        remain: req.body.remain,
+        brief: req.body.brief,
+        image: req.files.map(file=>file.path)
+      }
+      
+  }
+ 
+    People.findByIdAndUpdate(req.params.id,{$set:user},
+        (err,post) => {
+                 if(err) return res.status(400).json({success:false,err})
+                 return res.status(200).json({ message: "Updated People successfully",
+               });
+     },
+     );  
+  
+  
 });
 
 route.get("/:id",(req, res) => {
@@ -49,7 +260,7 @@ route.get("/:id",(req, res) => {
    
   });
 
-  route.delete("/delete/:id",(req, res) => {
+  route.delete("/delete/:id",userAuth,checkRole(["admin"]),(req, res) => {
   try{
         People.findByIdAndRemove(req.params.id).exec((deleteItem)=>{
         return res.json({success:true,deleteItem});

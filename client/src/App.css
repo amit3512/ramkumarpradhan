@@ -52,6 +52,20 @@ a{
  
 }
 
+.profile_image{
+  width: 50px;
+  height: 50px;
+  margin: 0.2em;
+  border: 1px solid blue;
+  border-radius: 50%;
+}
+
+.profile_image:hover{
+  transform: scale(1.5);
+}
+
+
+
 .form-group{
   padding-top: 0.7em;
 }
@@ -68,7 +82,7 @@ color: red;
 
 .btn{
  
-  color:rgb(36, 30, 30);
+  color:white;
   position:relative;
 }
 
@@ -87,3 +101,16 @@ color: red;
   width: 100%;
 }
 
+ 
+.mycard div{
+
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.excelButton{
+float: right;
+}
