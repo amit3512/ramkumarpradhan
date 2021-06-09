@@ -24,7 +24,7 @@
 }
 
  .table {
-  margin-top: 2em ;
+  margin-top: 1em ;
   font: lighter;
   font-size: 1.37em;
   border: 2px solid black;
@@ -67,6 +67,7 @@ color: red;
 }
 
 .btn{
+ 
   color:rgb(36, 30, 30);
   position:relative;
 }
@@ -84,4 +85,8 @@ color: red;
 
 .btn:hover::after{
   width: 100%;
+}
+.exportExcel{
+ 
+  float: right;
 }
