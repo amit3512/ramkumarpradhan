@@ -65,3 +65,23 @@ color: lightgreen;
  {
 color: red;
 }
+
+.btn{
+  color:rgb(36, 30, 30);
+  position:relative;
+}
+
+.btn::after{
+        position: absolute;
+        content: "";
+        width: 0;
+        height: .5rem;
+        left: 0;
+        bottom: 0;
+        background-color: #a4acc4;;
+        transition: width 0.4s ease-in-out;
+}
+
+.btn:hover::after{
+  width: 100%;
+}

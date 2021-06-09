@@ -32,6 +32,7 @@ useEffect(() => {
                 <div className="container">
                 <div className="row">
                 <div className="col-lg-1">
+                    <button className="btn btn-success">Excel Export</button>
                 </div>
                     <div className="col-lg-10">
                              <table className="table table-border">
@@ -68,8 +69,8 @@ useEffect(() => {
                                             <td>{user.remain}</td>
                                             <td className={user.brief}>{user.brief}</td>
                                             <td className="EditDeleteButton">
-                                                <a href={`user/${user._id}`}><button>Edit</button></a>
-                                               <button onClick={()=>onDelete(`${user._id}`)}>Delete</button>
+                                                <a href={`user/${user._id}`}><button className="btn btn-info">Edit</button></a>
+                                               <button onClick={()=>onDelete(`${user._id}`)}  className="btn btn-danger">Delete</button>
                                             </td>
                                         </tr>
                                         )
