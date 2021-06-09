@@ -30,12 +30,9 @@ useEffect(() => {
                 </div>
             ):(
                 <div className="container">
-                     <button className="btn btn-success mt-3 exportExcel">Excel Export</button>
                 <div className="row">
-               
-                <div className="col-lg-1">
-                  
-                </div>
+                 <div className="col-lg-1">
+                  </div>
                     <div className="col-lg-10">
                              <table className="table table-border">
                                  <thead>

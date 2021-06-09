@@ -86,7 +86,4 @@ color: red;
 .btn:hover::after{
   width: 100%;
 }
-.exportExcel{
- 
-  float: right;
-}
+
