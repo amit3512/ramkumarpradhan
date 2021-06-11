@@ -28,7 +28,7 @@
     "server": "nodemon server.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTON=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTON=false npm install --prefix client && npm run build --prefix client && npm run dev"
   },
   "author": "Amit Shrestha",
   "license": "ISC"
