@@ -97,6 +97,19 @@ router.get("/profile", userAuth, async (req, res) => {
 //     return res.json("Super admin and Admin");
 //   }
 // );
+<<<<<<< HEAD
+=======
+const User = require('../models/User');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport')
+const {SENDGRID_API,EMAIL} = require('../config/keys');
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+  auth:{
+      api_key:""
+  }
+}))
+>>>>>>> cece8c409c25a7ad7e37969c30873224b77fddee
 
 
 router.post('/reset-password',(req,res)=>{
