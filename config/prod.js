@@ -6,6 +6,6 @@
 module.exports={
     MONGO_URI:process.env.MONGO_URI,
     JWT_SECRET:process.env.JWT_SEC,
-    SENDGRID_API:process.env.SENDGRID_API,
+    SENDGRID_API_KEY:process.env.SENDGRID_API_KEY,
     EMAIL:process.env.EMAIL
 };

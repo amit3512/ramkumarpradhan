@@ -1,6 +1,17 @@
 const router = require("express").Router();
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
+const User = require('../models/User');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport')
+const {SENDGRID_API_KEY,EMAIL} = require('../config/keys');
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+  auth:{
+      api_key:SENDGRID_API_KEY
+  }
+}))
+
 
 // Bring in the User Registration function
 const {
@@ -86,16 +97,6 @@ router.get("/profile", userAuth, async (req, res) => {
 //     return res.json("Super admin and Admin");
 //   }
 // );
-const User = require('../models/User');
-const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport')
-const {SENDGRID_API,EMAIL} = require('../config/keys');
-
-const transporter = nodemailer.createTransport(sendgridTransport({
-  auth:{
-      api_key:"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"
-  }
-}))
 
 
 router.post('/reset-password',(req,res)=>{

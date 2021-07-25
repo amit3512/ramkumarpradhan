@@ -1,4 +1,4 @@
-import React,{useState,useContext,} from 'react';
+import React,{useState} from 'react';
 import {Link,useHistory,useParams} from 'react-router-dom';
 import M from 'materialize-css';
 import Alert from "./Alert";
@@ -18,7 +18,7 @@ const SignIn  = ()=>{
 
     const PostData = ()=>{
         if (password === newpassword && password !== ""){
-            fetch("/new-password",{
+            fetch("/signIn/new-password",{
                 method:"post",
                 headers:{
                     "Content-Type":"application/json"
@@ -51,15 +51,17 @@ const SignIn  = ()=>{
     }
    return (
       <div className="mycard text-center mt-3 px-3">
-          <div className="card auth-card input-field">
+          <div className="card auth-card input_box">
             <h2>New Password</h2> <br />
-        
+            <label>Password</label> <br />
             <input
             type="password"
             placeholder="enter a new password"
             value={password}
             onChange={(e)=>setPassword(e.target.value)}
             />  <br />
+            
+            <label>Confirm Password</label> <br />
             <input
             type="password"
             className="mt-2"
@@ -67,7 +69,8 @@ const SignIn  = ()=>{
             value={newpassword}
             onChange={(e)=>setNewPassword(e.target.value)}
             />  <br />
-            {alert.show && <Alert type={alert.type} text={alert.text}/>}
+            {alert.show && <h5><Alert type={alert.type} text={alert.text}/></h5>}
+            
             <button className="btn btn-success my-2"
             onClick={()=>PostData()}
             >

@@ -5,6 +5,7 @@ import { Redirect } from "react-router";
 import { getUser, deleteUser} from "../actions/userActions";
 import ReactExport from "react-data-export";
 
+
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
@@ -13,6 +14,7 @@ const Info = () =>{
 
 const data = useSelector((state)=>state.users.users);
 const dispatch = useDispatch();
+const [uploadPercentage,setUploadPercentage] = useState(0);
 
 const onDelete = (id) =>{
     dispatch(deleteUser(id));
@@ -20,7 +22,59 @@ const onDelete = (id) =>{
 
 useEffect(async () => {
        await dispatch(getUser(data));
-},[data]);
+},[]);
+
+const options = {
+    onDownloadProgress: (progressEvent) => {
+      const {loaded, total} = progressEvent;
+      let percent = Math.floor( (loaded * 100) / total )
+      console.log( `${loaded}kb of ${total}kb | ${percent}%` );
+
+      if( percent < 100 ){
+        setUploadPercentage( percent )
+      }
+    }
+  }
+
+const downloadFile = async (id, path,type) => {
+    try 
+    {
+      await axios.get(`http://localhost:3333/users/download/${path}`, options,{
+        responseType: "blob", // important
+        }
+      );
+    }
+    catch (error) 
+    {
+      if (error.response && error.response.status === 400) {
+        alert('Error while downloading file. Try again later');
+      }
+    }
+  };
+
+  function downloadGetAction (id, path,type) {
+    axios({
+      method: 'GET',
+      url: `http://localhost:3333/users/download/${path}`,
+      // Set header parameters
+      // headers: {
+      //   'Access-Control-Expose-Headers': 'Content-Disposition'
+      // },
+      responseType: 'blob', // The response type must be set, otherwise the response data cannot be processed correctly
+    }).then(function (res) {
+        let blob = new Blob([res.data], {
+        //   type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
+        })
+        let downloadElement = document.createElement('a')
+        let href = window.URL.createObjectURL(blob) // Create download link
+        downloadElement.href = href
+        downloadElement.download = new Date().getTime// File name after download
+        document.body.appendChild(downloadElement)
+        downloadElement.click() // click to download
+        document.body.removeChild(downloadElement) // Remove elements after downloading
+        window.URL.revokeObjectURL(href) // Release the blob object
+      })
+}
 
 const multiDataSet = [
     
@@ -78,6 +132,7 @@ if (data === undefined) {
                                          <th>कैफियत</th>
                                          <th></th>
                                          <th></th>
+                                         <th></th>
     
                                      </tr>
                                  </thead>
@@ -95,10 +150,26 @@ if (data === undefined) {
                                             <td>{user.give}</td>
                                             <td>{user.remain}</td>
                                             <td className={user.brief}>{user.brief}</td>
-                                            <td >{user.image.map((x,index)=><img key={index} src={x} className="profile_image" alt="profile img"/>)}</td>
+                                             <td ><img  src={user.image} className="profile_image" alt="profile img"/></td>
+                                            {/* <td >{user.image.map((x,index)=><img key={index} src={x} className="profile_image" alt="profile img"/>)}</td> */}
                                             <td className="EditDeleteButton">
                                                 <a href={`user/${user._id}`}><button className="btn btn-warning m-1">Edit</button></a>
                                                <button className="btn btn-danger" onClick={()=>onDelete(`${user._id}`)}>Delete</button>
+                                            </td>
+                                            <td >
+                                            
+                                                    <a
+                                                        href="#"
+                                                        onClick={() =>
+                                                            downloadGetAction(user._id, user.image)
+                                                        }
+                                                        
+                                                        >
+                                                            
+                                                         
+                                                            {user.image}
+                                                     </a>
+                                            
                                             </td>
                                         </tr>
                                     

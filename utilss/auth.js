@@ -70,7 +70,7 @@ const userLogin = async (userCreds,role,res) => {
       success: false
     });
   }
-  // That means user is existing and trying to signin fro the right portal
+  // That means user is existing and trying to signin from the right portal
   // Now check for the password
   let isMatch = await bcrypt.compare(password, user.password);
   if (isMatch) {

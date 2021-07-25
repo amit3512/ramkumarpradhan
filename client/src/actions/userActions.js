@@ -26,6 +26,20 @@ export const addUser = (formData) => async (dispatch)=>{
       });
 };
 
+export const updateUser = (id,formData) => async (dispatch)=>{
+  // const token = JSON.parse(localStorage.getItem('user'));
+  await axios.put(`http://localhost:3333/users/update/${id}`,formData,{
+    headers: {
+     'Content-type':'multipart/form-data',
+             }
+     })
+    .then((data) => {
+      dispatch({ type: UPDATE_USER, payload: data.users });
+      alert("Updated Successfully");
+      });
+};
+
+
 export const addUsers = (formData) => async (dispatch)=>{
   // const token = JSON.parse(localStorage.getItem('user'));
   await axios.post("http://localhost:3333/users/adds",formData,{
@@ -39,18 +53,6 @@ export const addUsers = (formData) => async (dispatch)=>{
       });
 };
 
-export const updateUser = (id,formData) => async (dispatch)=>{
-  // const token = JSON.parse(localStorage.getItem('user'));
-  await axios.put(`http://localhost:3333/users/update/${id}`,formData,{
-    headers: {
-     'Content-type':'multipart/form-data',
-             }
-     })
-    .then((data) => {
-      dispatch({ type: UPDATE_USER, payload: data.users });
-      alert("Updated Successfully");
-      });
-};
 
 export const updateUsers = (id,formData) => async (dispatch)=>{
   // const token = JSON.parse(localStorage.getItem('user'));

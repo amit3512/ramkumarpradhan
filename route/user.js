@@ -3,6 +3,8 @@ const route = express.Router();
 const multer = require('multer');
 const mongoose = require("mongoose");
 const path = require('path');
+const http = require('http'); // or 'https' for https:// URLs
+const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -27,8 +29,10 @@ const storage = multer.diskStorage({
     limits: {
       fileSize: 1024 * 1024 * 10
     },
-    fileFilter: fileFilter
+    // fileFilter: fileFilter
   });
+
+  
  
 const People = require('../models/People');
 const {
@@ -275,6 +279,20 @@ route.get("/:id",(req, res) => {
     
    
   });
+
+  const downloadFiles = (req, res) => {
+    const file_name = req.params.name;
+    var DOWNLOAD_DIR = path.join(process.env.HOME || process.env.USERPROFILE, 'downloads/');
+    var file_path = path.join(DOWNLOAD_DIR,file_name);
+     const file = fs.createWriteStream(file_path);
+    
+      const request = http.get(`http://localhost:3333/uploads/${req.params.name}`, function(response) {
+       response.pipe(file);
+});
+};
+
+  route.get('/download/uploads/:name', downloadFiles);
+  
 
 
 module.exports = route;

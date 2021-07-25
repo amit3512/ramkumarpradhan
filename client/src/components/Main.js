@@ -69,7 +69,7 @@ function Main(props) {
 
       const handleImage = e => {
         
-        setImage(e.target.files);
+        setImage(e.target.files[0]);
       };
 
 
@@ -79,9 +79,10 @@ const handleSubmit = (e) => {
         const formData = new FormData();
         
 
-       for (let i = 0; i < image.length; i++) {
-          formData.append("image", image[i])
-        }
+      //  for (let i = 0; i < image.length; i++) {
+      //     formData.append("image", image[i])
+      //   }
+        formData.append("image",image);
         formData.append("date",date);
         formData.append("name",name);
         formData.append("phone",phone);
@@ -90,7 +91,7 @@ const handleSubmit = (e) => {
         formData.append("give",give);
         formData.append("remain",remain);
         formData.append("brief",brief);
-        dispatch(addUsers(formData));
+        dispatch(addUser(formData));
         setRedirect(true);
 }
 
@@ -99,11 +100,11 @@ const handleUpdate = (e) => {
   e.preventDefault();
         // const data = {date,name,phone,desc,take,give,remain,brief}
         const formData = new FormData();
-        for (let i = 0; i < image.length; i++) {
-          formData.append("image", image[i])
-        }
+        // for (let i = 0; i < image.length; i++) {
+        //   formData.append("image", image[i])
+        // }
         
-        
+        formData.append("image",image);
         formData.append("date",date);
         formData.append("name",name);
         formData.append("phone",phone);
@@ -112,7 +113,7 @@ const handleUpdate = (e) => {
         formData.append("give",give);
         formData.append("remain",remain);
         formData.append("brief",brief);
-        dispatch(updateUsers(id,formData));
+        dispatch(updateUser(id,formData));
         setRedirect(true);
 }
 

@@ -34,9 +34,12 @@ const Reset  = ()=>{
     }
    return (
       <div className="mycard text-center mt-5">
-          <div className="card auth-card input-field p-2">
+          <div className="card auth-card input_box p-2">
            <h4>RESET PASSWORD</h4>
+           <label htmlFor="resetPassword">Type your Email</label><br/>
             <input
+            id="resetPassword"
+            className="my-3"
             type="text"
             placeholder="email"
             value={email}
